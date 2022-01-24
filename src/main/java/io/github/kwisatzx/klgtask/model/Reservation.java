@@ -1,10 +1,13 @@
 package io.github.kwisatzx.klgtask.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "reservations")
 public class Reservation {
@@ -19,10 +22,10 @@ public class Reservation {
     @JoinColumn(name = "renter_id")
     private Person renter;
     @Column(name = "start_date")
-    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    @DateTimeFormat(pattern = "dd-mm-yyyy", fallbackPatterns = {"yyyy-mm-dd"})
     private LocalDate startDate;
     @Column(name = "end_date")
-    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    @DateTimeFormat(pattern = "dd-mm-yyyy", fallbackPatterns = {"yyyy-mm-dd"})
     private LocalDate endDate;
     @Column(name = "monthly_cost")
     private Double monthlyCost;

@@ -1,5 +1,7 @@
 package io.github.kwisatzx.klgtask.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +16,7 @@ public class RentalProperty {
     private Long id;
     @Column(name = "property_name")
     private String name;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Person owner;
