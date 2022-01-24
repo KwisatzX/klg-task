@@ -15,6 +15,7 @@ public class RentalProperty {
     @Column(name = "property_name")
     private String name;
     @ManyToOne
+    @JoinColumn(name = "owner_id")
     private Person owner;
     @Column(name = "unit_price")
     private Double unitPrice;

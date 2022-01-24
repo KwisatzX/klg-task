@@ -13,8 +13,10 @@ public class Reservation {
     @Column(name = "reservation_id")
     private Long id;
     @ManyToOne
+    @JoinColumn(name = "property_id")
     private RentalProperty property;
     @ManyToOne
+    @JoinColumn(name = "renter_id")
     private Person renter;
     @Column(name = "start_date")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
@@ -22,7 +24,8 @@ public class Reservation {
     @Column(name = "end_date")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
     private LocalDate endDate;
-    private Double cost;
+    @Column(name = "monthly_cost")
+    private Double monthlyCost;
 
     public Long getId() {
         return id;
@@ -64,12 +67,12 @@ public class Reservation {
         this.endDate = endDate;
     }
 
-    public Double getCost() {
-        return cost;
+    public Double getMonthlyCost() {
+        return monthlyCost;
     }
 
-    public void setCost(Double cost) {
-        this.cost = cost;
+    public void setMonthlyCost(Double cost) {
+        this.monthlyCost = cost;
     }
 
     @Override
