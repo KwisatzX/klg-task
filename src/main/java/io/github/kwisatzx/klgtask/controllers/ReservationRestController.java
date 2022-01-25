@@ -3,11 +3,16 @@ package io.github.kwisatzx.klgtask.controllers;
 import io.github.kwisatzx.klgtask.model.reservation.Reservation;
 import io.github.kwisatzx.klgtask.model.reservation.ReservationGetDto;
 import io.github.kwisatzx.klgtask.model.reservation.ReservationPostDto;
+import io.github.kwisatzx.klgtask.model.reservation.ReservationPostDtoValidator;
 import io.github.kwisatzx.klgtask.repositories.PersonRepository;
 import io.github.kwisatzx.klgtask.repositories.RentalPropertyRepository;
 import io.github.kwisatzx.klgtask.repositories.ReservationRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +37,12 @@ public class ReservationRestController {
         this.modelMapper = modelMapper;
     }
 
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(
+                new ReservationPostDtoValidator(reservationRepository, personRepository, propertyRepository));
+    }
+
     @GetMapping("/reservations/{id}")
     public ReservationGetDto getById(@PathVariable Long id) {
         return reservationRepository.findById(id).map(this::toDto).orElse(null);
@@ -49,7 +60,14 @@ public class ReservationRestController {
     }
 
     @PostMapping("/reservations/add")
-    public ResponseEntity<ReservationPostDto> addNewReservation(@RequestBody ReservationPostDto reservationPostDto) {
+    public ResponseEntity<ReservationPostDto> addNewReservation(
+            @RequestBody @Validated ReservationPostDto reservationPostDto,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            String errors = result.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
+            return ResponseEntity.badRequest().header("Errors", errors).build();
+        }
         reservationRepository.save(ToEntity(reservationPostDto));
         return ResponseEntity.ok(reservationPostDto);
     }
