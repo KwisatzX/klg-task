@@ -1,7 +1,7 @@
 package io.github.kwisatzx.klgtask.repositories;
 
 import io.github.kwisatzx.klgtask.model.Person;
-import io.github.kwisatzx.klgtask.model.Reservation;
+import io.github.kwisatzx.klgtask.model.reservation.Reservation;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

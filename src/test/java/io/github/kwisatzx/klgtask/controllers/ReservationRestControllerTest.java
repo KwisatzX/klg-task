@@ -2,10 +2,8 @@ package io.github.kwisatzx.klgtask.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.kwisatzx.klgtask.model.Person;
-import io.github.kwisatzx.klgtask.model.PersonDto;
-import io.github.kwisatzx.klgtask.model.Reservation;
-import io.github.kwisatzx.klgtask.model.ReservationDto;
+import io.github.kwisatzx.klgtask.model.reservation.Reservation;
+import io.github.kwisatzx.klgtask.model.reservation.ReservationPostDto;
 import io.github.kwisatzx.klgtask.repositories.PersonRepository;
 import io.github.kwisatzx.klgtask.repositories.ReservationRepository;
 import org.junit.jupiter.api.Test;
@@ -25,15 +23,10 @@ class ReservationRestControllerTest {
 
     @Test
     public void mappingToDtoIsCorrect() throws JsonProcessingException {
-        Reservation reservation = reservationRepository.findById(1L).get();
-        ReservationDto result = modelMapper.map(reservation, ReservationDto.class);
+        Reservation reservation = reservationRepository.findById(2L).get();
+        ReservationPostDto result = modelMapper.map(reservation, ReservationPostDto.class);
 
         System.out.println(
                 "new ObjectMapper().writeValueAsString(testObj) = " + new ObjectMapper().writeValueAsString(result));
-
-        Person person = personRepository.findById(1L).get();
-        PersonDto result2 = modelMapper.map(person, PersonDto.class);
-
-        System.out.println(new ObjectMapper().writeValueAsString(result2));
     }
 }

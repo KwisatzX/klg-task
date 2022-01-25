@@ -1,5 +1,6 @@
 package io.github.kwisatzx.klgtask.model;
 
+import io.github.kwisatzx.klgtask.model.reservation.Reservation;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,7 +1,7 @@
 package io.github.kwisatzx.klgtask.controllers;
 
 import io.github.kwisatzx.klgtask.model.PersonDto;
-import io.github.kwisatzx.klgtask.model.ReservationDto;
+import io.github.kwisatzx.klgtask.model.reservation.ReservationGetDto;
 import io.github.kwisatzx.klgtask.repositories.PersonRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,9 +30,9 @@ public class PersonRestController {
     }
 
     @GetMapping("/person/{id}/reservations")
-    public List<ReservationDto> getReservationsForPerson(@PathVariable Long id) {
+    public List<ReservationGetDto> getReservationsForPerson(@PathVariable Long id) {
         return personRepository.getAllReservations(id).stream()
-                .map(reservation -> toDto(reservation, ReservationDto.class)).collect(Collectors.toList());
+                .map(reservation -> toDto(reservation, ReservationGetDto.class)).collect(Collectors.toList());
     }
 
     private <T> T toDto(Object obj, Class<T> clazz) {

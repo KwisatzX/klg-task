@@ -1,5 +1,6 @@
 package io.github.kwisatzx.klgtask.model;
 
+import io.github.kwisatzx.klgtask.model.reservation.ReservationGetDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Setter
 public class PersonDto {
     private String name;
-    private List<ReservationDto> reservations;
+    private List<ReservationGetDto> reservations;
 
     public PersonDto() {
         reservations = new ArrayList<>();

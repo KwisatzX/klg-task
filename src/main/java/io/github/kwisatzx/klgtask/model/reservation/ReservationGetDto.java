@@ -1,11 +1,12 @@
-package io.github.kwisatzx.klgtask.model;
+package io.github.kwisatzx.klgtask.model.reservation;
 
+import io.github.kwisatzx.klgtask.model.RentalPropertyDto;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ReservationDto {
+public class ReservationGetDto {
     private RentalPropertyDto property;
     private String renterName;
     private String startDate;

@@ -1,5 +1,7 @@
-package io.github.kwisatzx.klgtask.model;
+package io.github.kwisatzx.klgtask.model.reservation;
 
+import io.github.kwisatzx.klgtask.model.Person;
+import io.github.kwisatzx.klgtask.model.RentalProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
