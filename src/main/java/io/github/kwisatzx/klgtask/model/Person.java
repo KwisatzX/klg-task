@@ -1,10 +1,15 @@
 package io.github.kwisatzx.klgtask.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "people")
 public class Person {
@@ -16,22 +21,6 @@ public class Person {
     private String name;
     @OneToMany(mappedBy = "renter")
     private List<Reservation> reservations;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public List<Reservation> getReservations() {
         if (reservations == null) reservations = new ArrayList<>();

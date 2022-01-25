@@ -1,13 +1,14 @@
 package io.github.kwisatzx.klgtask.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Getter
+@Setter
 @Entity
 @Table(name = "reservations")
 public class Reservation {
@@ -29,54 +30,6 @@ public class Reservation {
     private LocalDate endDate;
     @Column(name = "monthly_cost")
     private Double monthlyCost;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public RentalProperty getProperty() {
-        return property;
-    }
-
-    public void setProperty(RentalProperty property) {
-        this.property = property;
-    }
-
-    public Person getRenter() {
-        return renter;
-    }
-
-    public void setRenter(Person renter) {
-        this.renter = renter;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public Double getMonthlyCost() {
-        return monthlyCost;
-    }
-
-    public void setMonthlyCost(Double cost) {
-        this.monthlyCost = cost;
-    }
 
     @Override
     public boolean equals(Object o) {
