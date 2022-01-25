@@ -1,6 +1,5 @@
 package io.github.kwisatzx.klgtask.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +19,6 @@ public class RentalProperty {
     private Long id;
     @Column(name = "property_name")
     private String name;
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Person owner;
@@ -29,7 +27,7 @@ public class RentalProperty {
     @Column(name = "surface_area")
     private Double surfaceArea;
     private String description;
-    @OneToMany(mappedBy = "property")
+    @OneToMany(mappedBy = "property", fetch = FetchType.EAGER)
     private List<Reservation> reservations;
 
     public List<Reservation> getReservations() {

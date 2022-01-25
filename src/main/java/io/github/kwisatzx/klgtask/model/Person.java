@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -19,12 +18,12 @@ public class Person {
     private Long id;
     @Column(name = "person_name")
     private String name;
-    @OneToMany(mappedBy = "renter")
+    @OneToMany(mappedBy = "renter", fetch = FetchType.EAGER)
     private List<Reservation> reservations;
 
     public List<Reservation> getReservations() {
         if (reservations == null) reservations = new ArrayList<>();
-        return Collections.unmodifiableList(reservations);
+        return reservations;
     }
 
     @Override

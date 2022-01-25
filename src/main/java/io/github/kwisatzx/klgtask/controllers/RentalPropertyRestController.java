@@ -1,8 +1,8 @@
 package io.github.kwisatzx.klgtask.controllers;
 
-import io.github.kwisatzx.klgtask.model.PersonDto;
+import io.github.kwisatzx.klgtask.model.RentalPropertyDto;
 import io.github.kwisatzx.klgtask.model.ReservationDto;
-import io.github.kwisatzx.klgtask.repositories.PersonRepository;
+import io.github.kwisatzx.klgtask.repositories.RentalPropertyRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,24 +14,24 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-public class PersonRestController {
+public class RentalPropertyRestController {
 
-    private final PersonRepository personRepository;
+    private final RentalPropertyRepository repository;
     private final ModelMapper modelMapper;
 
-    public PersonRestController(PersonRepository personRepository, ModelMapper modelMapper) {
-        this.personRepository = personRepository;
+    public RentalPropertyRestController(RentalPropertyRepository repository, ModelMapper modelMapper) {
+        this.repository = repository;
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/person/{id}")
-    public PersonDto getPersonById(@PathVariable Long id) {
-        return personRepository.findById(id).map(person -> toDto(person, PersonDto.class)).orElse(null);
+    @GetMapping("/property/{id}")
+    public RentalPropertyDto getById(@PathVariable Long id) {
+        return repository.findById(id).map(property -> toDto(property, RentalPropertyDto.class)).orElse(null);
     }
 
-    @GetMapping("/person/{id}/reservations")
-    public List<ReservationDto> getReservationsForPerson(@PathVariable Long id) {
-        return personRepository.getAllReservations(id).stream()
+    @GetMapping("/property/{id}/reservations")
+    public List<ReservationDto> getReservationsForProperty(@PathVariable Long id) {
+        return repository.getAllReservations(id).stream()
                 .map(reservation -> toDto(reservation, ReservationDto.class)).collect(Collectors.toList());
     }
 
