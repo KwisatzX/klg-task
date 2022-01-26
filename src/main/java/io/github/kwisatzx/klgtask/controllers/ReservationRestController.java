@@ -8,14 +8,17 @@ import io.github.kwisatzx.klgtask.repositories.PersonRepository;
 import io.github.kwisatzx.klgtask.repositories.RentalPropertyRepository;
 import io.github.kwisatzx.klgtask.repositories.ReservationRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -64,12 +67,29 @@ public class ReservationRestController {
             @RequestBody @Validated ReservationPostDto reservationPostDto,
             BindingResult result) {
         if (result.hasErrors()) {
-            String errors = result.getAllErrors().stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
-            return ResponseEntity.badRequest().header("Errors", errors).build();
+            return ResponseEntity.badRequest().header("Errors", getErrorsString(result)).build();
         }
         reservationRepository.save(ToEntity(reservationPostDto));
         return ResponseEntity.ok(reservationPostDto);
+    }
+
+    @Transactional
+    @PutMapping("/reservations/{id}/edit")
+    public ResponseEntity<ReservationPostDto> editReservation(
+            @PathVariable Long id,
+            @RequestBody ReservationPostDto reservationPostDto) {
+        Optional<Reservation> toUpdate = reservationRepository.findById(id);
+        if (!toUpdate.isPresent()) return ResponseEntity.badRequest().build();
+        else {
+            Reservation res = toUpdate.get();
+            BeanUtils.copyProperties(reservationPostDto, res);
+            return ResponseEntity.ok().body(reservationPostDto);
+        }
+    }
+
+    private String getErrorsString(BindingResult result) {
+        return result.getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(", "));
     }
 
     private ReservationGetDto toDto(Reservation reservation) {

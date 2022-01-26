@@ -10,4 +10,6 @@ public interface ReservationRepository extends CrudRepository<Reservation, Long>
     List<Reservation> findByRenterName(String name);
 
     List<Reservation> findByPropertyId(Long id);
+
+
 }
