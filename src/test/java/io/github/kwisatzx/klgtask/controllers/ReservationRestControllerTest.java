@@ -1,32 +1,30 @@
 package io.github.kwisatzx.klgtask.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.kwisatzx.klgtask.model.reservation.Reservation;
-import io.github.kwisatzx.klgtask.model.reservation.ReservationPostDto;
-import io.github.kwisatzx.klgtask.repositories.PersonRepository;
-import io.github.kwisatzx.klgtask.repositories.ReservationRepository;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class ReservationRestControllerTest {
 
     @Autowired
-    ReservationRepository reservationRepository;
-    @Autowired
-    PersonRepository personRepository;
-    @Autowired
-    ModelMapper modelMapper;
+    private MockMvc mockMvc;
 
     @Test
-    public void mappingToDtoIsCorrect() throws JsonProcessingException {
-        Reservation reservation = reservationRepository.findById(2L).get();
-        ReservationPostDto result = modelMapper.map(reservation, ReservationPostDto.class);
+    public void successfullyReturnsReservationForProperty() throws Exception {
+        String expectedJson = "[{\"property\":{\"id\":2,\"name\":\"Magazyn Hutnicza 6/12, 40-241 Katowice\"," +
+                "\"ownerName\":\"Anna Nowak\",\"unitPrice\":10.2,\"surfaceArea\":8.0," +
+                "\"description\":\"Magazyn nr.12 na ul. Hutnicza 6\"},\"renterName\":\"Jan Kowalski\"," +
+                "\"startDate\":\"2021-12-01\",\"endDate\":\"2022-01-31\",\"monthlyCost\":81.6}]";
 
-        System.out.println(
-                "new ObjectMapper().writeValueAsString(testObj) = " + new ObjectMapper().writeValueAsString(result));
+        this.mockMvc.perform(get("/api/property/2/reservations")).andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
     }
 }
